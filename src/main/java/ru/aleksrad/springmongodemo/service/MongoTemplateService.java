@@ -43,4 +43,10 @@ public class MongoTemplateService {
         );
     }
 
+    public void removeAllByType(String type) {
+        mongoTemplate.remove(
+            Query.query(Criteria.where("type").is(type)), Settings.class
+        );
+    }
+
 }

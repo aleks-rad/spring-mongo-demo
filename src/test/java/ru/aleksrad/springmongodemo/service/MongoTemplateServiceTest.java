@@ -1,6 +1,7 @@
 package ru.aleksrad.springmongodemo.service;
 
 import com.mongodb.client.result.DeleteResult;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,12 +17,19 @@ class MongoTemplateServiceTest {
 
     @Autowired
     private MongoTemplateService mongoTemplateService;
+    
+    private static final String TEMPLATE_TYPE = "template";
+
+    @BeforeEach
+    public void beforeEach() {
+        mongoTemplateService.removeAllByType(TEMPLATE_TYPE);
+    }
 
     @Test
     void saveSettingsTest() {
         Settings settings = new Settings();
         settings.setUserName("Пупов");
-        settings.setLang("ru");
+        settings.setType(TEMPLATE_TYPE);
         settings.setActive(true);
         mongoTemplateService.saveSettings(settings);
 
@@ -35,7 +43,7 @@ class MongoTemplateServiceTest {
     void findAllSettingsTest() {
         Settings settings = new Settings();
         settings.setUserName("Пупкина");
-        settings.setLang("ru");
+        settings.setType(TEMPLATE_TYPE);
         settings.setActive(true);
         mongoTemplateService.saveSettings(settings);
 
@@ -49,7 +57,7 @@ class MongoTemplateServiceTest {
     void removeSettingsTest() {
         Settings settings = new Settings();
         settings.setUserName("Удалите меня");
-        settings.setLang("ru");
+        settings.setType(TEMPLATE_TYPE);
         settings.setActive(false);
         mongoTemplateService.saveSettings(settings);
 
